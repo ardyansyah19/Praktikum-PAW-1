@@ -1,0 +1,59 @@
+2026-10-06 11:53:53 +07 LOG:  starting PostgreSQL 13.23, compiled by Visual C++ build 1944, 64-bit
+2026-10-06 11:53:53 +07 LOG:  listening on IPv6 address "::", port 5432
+2026-10-06 11:53:53 +07 LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-10-06 11:53:53 +07 LOG:  database system was shut down at 2026-10-06 11:26:31 +07
+2026-10-06 11:53:53 +07 LOG:  database system is ready to accept connections
+2026-10-06 12:36:29 +07 LOG:  could not receive data from client: An existing connection was forcibly closed by the remote host.
+	
+2026-10-06 13:07:10 +07 ERROR:  syntax error at or near "{" at character 1
+2026-10-06 13:07:10 +07 STATEMENT:  {
+	  "name": "praktikum-perpustakaan",
+	  "version": "1.0.0",
+	  "private": true,
+	  "type": "module",
+	  "scripts": {
+	    "build": "tsc",
+	    "dev": "tsx src/index.ts"
+	  },
+	  "devDependencies": {
+	    "typescript": "5.9.3",
+	    "tsx": "4.23.12"
+	  }
+	}
+2026-10-06 13:07:30 +07 ERROR:  syntax error at or near "alamat" at character 1
+2026-10-06 13:07:30 +07 STATEMENT:  alamat?: string | null;
+2026-10-06 13:12:20 +07 ERROR:  relation "kategori" already exists
+2026-10-06 13:12:20 +07 STATEMENT:  CREATE TABLE kategori (
+	  id   SERIAL PRIMARY KEY,
+	  nama VARCHAR(100) NOT NULL
+	);
+	
+	CREATE TABLE buku (
+	  id      SERIAL PRIMARY KEY,
+	  judul   VARCHAR(255) NOT NULL,
+	  penulis VARCHAR(150) NOT NULL,
+	  isbn    VARCHAR(20)  NOT NULL UNIQUE,
+	  stok    INTEGER                      -- boleh NULL, setara stok?: number
+	);
+	
+	-- Buku punya satu atau lebih kategori (relasi banyak-ke-banyak)
+	CREATE TABLE buku_kategori (
+	  buku_id     INTEGER REFERENCES buku(id) ON DELETE CASCADE,
+	  kategori_id INTEGER REFERENCES kategori(id) ON DELETE CASCADE,
+	  PRIMARY KEY (buku_id, kategori_id)
+	);
+	
+	CREATE TABLE anggota (
+	  id     SERIAL PRIMARY KEY,
+	  nama   VARCHAR(100) NOT NULL,
+	  email  VARCHAR(150) NOT NULL UNIQUE,
+	  alamat TEXT                          -- boleh NULL, setara string | null
+	);
+2026-10-06 13:12:29 +07 ERROR:  relation "buku" already exists
+2026-10-06 13:12:29 +07 STATEMENT:  CREATE TABLE buku (
+	  id      SERIAL PRIMARY KEY,
+	  judul   VARCHAR(255) NOT NULL,
+	  penulis VARCHAR(150) NOT NULL,
+	  isbn    VARCHAR(20)  NOT NULL UNIQUE,
+	  stok    INTEGER                      -- boleh NULL, setara stok?: number
+	);
